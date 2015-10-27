@@ -34,7 +34,7 @@ var MBTA = {
 		//console.log(trips);
 		var that = this;
 		$.each(trips, function(i,trip){
-			console.log(trip);
+			//console.log(trip);
 			$('#trips').append("<li id='" + trip.trip_id + "' class='trip'></li>");
 			that.startTimer(trip.pre_away, $('#' + trip.trip_id));
 		});		
