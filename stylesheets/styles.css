@@ -176,6 +176,10 @@ hr {
   margin:0 0 20px;
 }
 
+li.ashmont{
+  text-decoration: line-through;
+}
+
 footer {
   width:270px;
   float:left;
