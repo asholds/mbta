@@ -36,6 +36,9 @@ var MBTA = {
 		$.each(trips, function(i,trip){
 			//console.log(trip);
 			$('#trips').append("<li id='" + trip.trip_id + "' class='trip'></li>");
+			if(trip.trip_headsign == "Ashmont"){ $('#' + trip.trip_id).addClass('ashmont'); }
+			
+			
 			that.startTimer(trip.pre_away, $('#' + trip.trip_id));
 		});		
 	},
