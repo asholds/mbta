@@ -14,32 +14,36 @@ var MBTA = {
 		var stop = this.closestStop();
 		var requestUrl = "http://realtime.mbta.com/developer/api/v2/predictionsbystop?api_key=" + this.api_key + "&stop=" + stop + "&format=json";
 		$.getJSON( requestUrl, function( data ) {
+			console.log(data);
 			var stationName = data.stop_name;
 			var mode = $.grep(data.mode, function(e){ return e.mode_name == "Subway"; });
 			var subway = mode[0].route[0]
 
 			var northbound = $.grep(subway.direction, function(e){ return e.direction_name == "Northbound"; });
 			var southbound = $.grep(subway.direction, function(e){ return e.direction_name == "Southbound"; });
-				
+			
 			if(stationName == "Quincy Center"){ 
-				$('#direction').html("Quincy Center Northbound");
+				$('#direction').html("Quincy Center");
 				that.displayStopData(northbound[0].trip); 
 			}else{ 
-				$('#direction').html("South Station Southbound");
+				$('#direction').html("South Station");
 				that.displayStopData(southbound[0].trip); 
 			}
 		});		
 	},
 	displayStopData: function(trips){
-		//console.log(trips);
 		var that = this;
 		$.each(trips, function(i,trip){
-			//console.log(trip);
-			$('#trips').append("<li id='" + trip.trip_id + "' class='trip'></li>");
-			if(trip.trip_headsign == "Ashmont"){ $('#' + trip.trip_id).addClass('ashmont'); }
+			var minutes = parseInt(trip.pre_away / 60, 10)
+	        var seconds = parseInt(trip.pre_away % 60, 10);
 			
+			var arrival = new Date();
+			//arrival.setSeconds(arrival.getSeconds() + trip.pre_away);
+			var arrivalTime = new Date(arrival.valueOf()+trip.pre_away*1000);
 			
-			that.startTimer(trip.pre_away, $('#' + trip.trip_id));
+			if(trip.trip_headsign != "Ashmont"){  
+				$('#trips').append("<p><span class='left' id='" + trip.trip_id + "'>" + minutes + " minutes</span><span class='right' id='" + trip.trip_id + "'>" + arrivalTime.toLocaleTimeString() + "</span></p>");
+			}	
 		});		
 	},
 	distanceBetween: function(myPos, stopPos){
@@ -50,21 +54,5 @@ var MBTA = {
 		    (1 - c((stopPos.longitude - myPos.longitude) * p))/2;
 
 		return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
-	},
-	startTimer: function (duration, display) {
-	    var timer = duration, minutes, seconds;
-	    setInterval(function () {
-	        minutes = parseInt(timer / 60, 10)
-	        seconds = parseInt(timer % 60, 10);
-
-	        minutes = minutes < 10 ? "0" + minutes : minutes;
-	        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-	        display.text(minutes + ":" + seconds);
-
-	        if (--timer < 0) {
-	            timer = 0;
-	        }
-	    }, 1000);
 	}
 };
