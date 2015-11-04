@@ -41,9 +41,8 @@ var MBTA = {
 			//arrival.setSeconds(arrival.getSeconds() + trip.pre_away);
 			var arrivalTime = new Date(arrival.valueOf()+trip.pre_away*1000);
 			
-			if(trip.trip_headsign != "Ashmont"){  
-				$('#trips').append("<p><span class='left' id='" + trip.trip_id + "'>" + minutes + " minutes</span><span class='right' id='" + trip.trip_id + "'>" + arrivalTime.toLocaleTimeString() + "</span></p>");
-			}	
+			$('#trips').append("<p><span class='left' id='" + trip.trip_id + "'>" + minutes + " minutes</span><span class='right'>" + arrivalTime.toLocaleTimeString() + "</span></p>");
+			if(trip.trip_headsign == "Ashmont"){ $('#' + trip.trip_id).addClass('ashmont'); }
 		});		
 	},
 	distanceBetween: function(myPos, stopPos){
