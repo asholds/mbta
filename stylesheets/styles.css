@@ -58,3 +58,4 @@ div#trips{
 div p{ overflow: hidden; }
 div span.left{ float:left; }
 div span.right{ float:right; }
+div span.ashmont{ text-decoration:line-through; color:#ccc; }
