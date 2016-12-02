@@ -12,7 +12,7 @@ var MBTA = {
 		var that = this;
 		
 		var stop = this.closestStop();
-		var requestUrl = "http://realtime.mbta.com/developer/api/v2/predictionsbystop?api_key=" + this.api_key + "&stop=" + stop + "&format=json";
+		var requestUrl = "https://realtime.mbta.com/developer/api/v2/predictionsbystop?api_key=" + this.api_key + "&stop=" + stop + "&format=json";
 		$.getJSON( requestUrl, function( data ) {
 			console.log(data);
 			var stationName = data.stop_name;
