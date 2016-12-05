@@ -23,9 +23,23 @@
 </head>
 <body md-theme="dark-grey">
 	<div ng-controller="MainController as main" ng-cloak>
-		<div ng-show="!main.stations.length">Loading</div>
+		<div ng-show="!main.stations.length">
+			<md-content md-theme="dark-grey" layout-padding>
+				<div layout="row" layout-sm="column" layout-align="space-around">
+      				<md-progress-circular class="md-accent" md-diameter="20px"></md-progress-circular>
+      			</div>
+			</md-content>
+		</div>
 
-		<div ng-show="main.stations.length">			
+		<div ng-show="main.stations.length">	
+			<md-toolbar md-scroll-shrink ng-if="true">
+				<div class="md-toolbar-tools">
+					<h2 flex md-truncate>MBTA</h2>
+		      </div>
+		    </md-toolbar>		
+
+			<md-content flex>
+
 			<md-card ng-repeat="station in main.stations" md-theme="dark-grey">
 				<md-card-title>
 					<md-card-title-text>
@@ -49,6 +63,8 @@
 			        </md-list>
 				</md-card-content>
 			</md-card>
+
+			</md-content>
 
 			<!--<div class='station' ng-repeat="station in main.stations">
 				<h1>{{station.name}}</h1>

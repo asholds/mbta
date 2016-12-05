@@ -62,6 +62,7 @@ App.filter('toMinSec', function(){
 
 App.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('dark-grey')
-    .primaryPalette('yellow') 
+    .primaryPalette('grey') 
+    .accentPalette('red')
     .dark();
 })
