@@ -21,18 +21,18 @@
 		<div ng-show="!main.stations.length">Loading</div>
 		<div ng-show="main.stations.length">
 			<button type="button" onClick="window.location.reload()">Reload</button>
-			<ul ng-repeat="station in main.stations">
+			<div ng-repeat="station in main.stations">
 				<h1>{{station.name}}</h1>
 				<h2>North</h2>
-				<li ng-repeat="prediction in station.predictions | filter: { direction : 'Northbound' } | limitTo:3">
+				<p ng-repeat="prediction in station.predictions | filter: { direction : 'Northbound' } | limitTo:3">
 			    	{{prediction.headsign}} - {{prediction.distance | toMinSec}}
-				</li>
+				</p>
 				<br/>
 				<h2>South</h2>
-				<li ng-repeat="prediction in station.predictions | filter: { direction : 'Southbound' } | limitTo:3">
+				<p ng-repeat="prediction in station.predictions | filter: { direction : 'Southbound' } | limitTo:3">
 			   		{{prediction.headsign}} - {{prediction.distance | toMinSec}}
-				</li>
-			</ul>
+				</p>
+			</div>
 		</div>
 	</div>
 </body>
