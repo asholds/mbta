@@ -3,9 +3,13 @@ body {
   color: white;
 }
 
+md-toolbar{
+	padding: 10px 0px 5px;
+}
+
 md-card {
 	font-family: 'Bungee', cursive;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 md-card md-card-title {
@@ -14,11 +18,11 @@ md-card md-card-title {
 
 
 md-card-title-text {
-	font-size:25px !important;
+	font-size:20px !important;
 }
 
 md-card-content p {
-	font-size: 25px;
+	font-size: 20px;
 	margin:0px;
 	padding:0px;
 }
