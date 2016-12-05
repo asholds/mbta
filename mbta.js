@@ -48,7 +48,7 @@ App.controller('MainController', ['predictions', function(predictions) {
 App.factory('predictions', ['$http', function ($http) {
   return {
     get: function (callback) {
-      $http.get('http://realtime.mbta.com/developer/api/v2/predictionsbyroute?api_key=wX9NwuHnZU2ToO7GmGR9uw&route=Red&format=json').success(function (data) { callback(data); })
+      $http.get('https://realtime.mbta.com/developer/api/v2/predictionsbyroute?api_key=wX9NwuHnZU2ToO7GmGR9uw&route=Red&format=json').success(function (data) { callback(data); })
     }
   }
 }]);
