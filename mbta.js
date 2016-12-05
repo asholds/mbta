@@ -1,25 +1,24 @@
 var App = angular.module('App', []);
 
 App.controller('MainController', ['predictions', function(predictions) {
+  
   var vm = this;
   predictions.get(function (data) {
-
-    //console.log(data);
-
+  
     vm.alerts = [];
     $.each(data.alert_headers, function(){ 
       vm.alerts.push(this.header_text);
     });
     
     vm.stations = [];
-    $.each(["Braintree", "Quincy Adams", "Quincy Center", "Wollaston", "North Quincy", "JFK/UMass", "Andrew", "Broadway", "South Station", "Downtown Crossing", "Park Street", "Charles/MGH", "Kendall/MIT", "Central", "Harvard", "Porter", "Davis", "Alewife", "Savin Hill", "Fields Corner", "Shawmut", "Ashmont"], function(i,v){
+    $.each(["Braintree", "Quincy Adams", "Quincy Center", "Wollaston", "North Quincy", "JFK/UMASS", "Andrew", "Broadway", "South Station", "Downtown Crossing", "Park Street", "Charles/MGH", "Kendall/MIT", "Central", "Harvard", "Porter", "Davis", "Alewife", "Savin Hill", "Fields Corner", "Shawmut", "Ashmont"], function(i,v){
       var station = {};
       station.name = v;
       station.predictions = [];
       vm.stations.push(station);
     });
 
-    console.log(vm.stations);
+    //console.log(vm.stations);
 
     $.each(data.direction, function(){ 
       var direction = this;
@@ -31,17 +30,16 @@ App.controller('MainController', ['predictions', function(predictions) {
           prediction.headsign = train.trip_headsign;
           prediction.direction = direction.direction_name;
           prediction.distance = this.pre_away;
-          console.log(stop.stop_name.split(' - ')[0]);
-          console.log(vm.stations.filter(function( obj ) { return obj.name == stop.stop_name.split(' - ')[0] }));
-          vm.stations.filter(function( obj ) { return obj.name == stop.stop_name.split(' - ')[0] })[0].predictions.push(prediction);
-          
 
+          var stopName = stop.stop_name.split(' - ')[0];
+          if(stopName == "JFK/UMASS Braintree" || stopName == "JFK/UMASS Ashmont"){ stopName = "JFK/UMASS"; }
+
+          vm.stations.filter(function( obj ) { return obj.name == stopName })[0].predictions.push(prediction);
+          
         });
       });
     });
-
-    console.log(vm.stations);
-
+    //console.log(vm.stations);
   });
 }]);
 
@@ -53,6 +51,11 @@ App.factory('predictions', ['$http', function ($http) {
   }
 }]);
 
-App.filter('stationName', function() {
-  return function(input) { return input.split(' - ')[0]; }
-});
+App.filter('toMinSec', function(){
+  return function(input){
+    var minutes = parseInt(input/60, 10);
+    var seconds = input%60;
+
+    return minutes+ ':' +seconds;
+  }
+})
