@@ -10,17 +10,47 @@
 	<script>document.write("<base href=\"" + document.location + "\" />");</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-
+	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 	<script src="mbta.js"></script>
+
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link rel="apple-touch-icon" href="icon.png">
 
 </head>
-<body>
-	<div ng-controller="MainController as main">
+<body md-theme="dark-grey">
+	<div ng-controller="MainController as main" ng-cloak>
 		<div ng-show="!main.stations.length">Loading</div>
+
 		<div ng-show="main.stations.length">			
-			<div class='station' ng-repeat="station in main.stations">
+			<md-card ng-repeat="station in main.stations" md-theme="dark-grey">
+				<md-card-title>
+					<md-card-title-text>
+		        	    <span class="md-headline">{{station.name}}</span>		            	
+					</md-card-title-text>
+				</md-card-title>
+				<md-card-content>
+					<md-list flex>
+						<md-subheader class="md-no-sticky">Northbound</md-subheader>
+				        <md-list-item class="md-2-line" ng-repeat="prediction in station.predictions | filter: { direction : 'Northbound' } | limitTo:3" ng-click="null">
+				          <div class="md-list-item-text" layout="column">
+				            <p>{{prediction.headsign}} - {{prediction.distance | toMinSec}}</p>
+				          </div>
+				        </md-list-item>
+				        <md-subheader class="md-no-sticky">Southbound</md-subheader>
+				        <md-list-item class="md-2-line" ng-repeat="prediction in station.predictions | filter: { direction : 'Southbound' } | limitTo:3" ng-click="null">
+				          <div class="md-list-item-text" layout="column">
+				            <p>{{prediction.headsign}} - {{prediction.distance | toMinSec}}</p>
+				          </div>
+				        </md-list-item>
+			        </md-list>
+				</md-card-content>
+			</md-card>
+
+			<!--<div class='station' ng-repeat="station in main.stations">
 				<h1>{{station.name}}</h1>
 				<h2>North</h2>
 				<p ng-repeat="prediction in station.predictions | filter: { direction : 'Northbound' } | limitTo:3">
@@ -31,7 +61,7 @@
 				<p ng-repeat="prediction in station.predictions | filter: { direction : 'Southbound' } | limitTo:3">
 			   		{{prediction.headsign}} - {{prediction.distance | toMinSec}}
 				</p>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </body>

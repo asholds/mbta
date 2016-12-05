@@ -1,4 +1,4 @@
-var App = angular.module('App', []);
+var App = angular.module('App', ['ngMaterial']);
 
 App.controller('MainController', ['predictions', function(predictions) {
   
@@ -58,4 +58,10 @@ App.filter('toMinSec', function(){
 
     return minutes+ ':' +seconds;
   }
+})
+
+App.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('dark-grey')
+    .primaryPalette('yellow') 
+    .dark();
 })
