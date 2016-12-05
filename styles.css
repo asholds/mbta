@@ -8,11 +8,6 @@ md-card {
 	font-size: 18px;
 }
 
-md-card md-card-title {
-    padding: 0px 16px 0px;
-}
-
-
 md-card-title-text {
 	font-size:20px !important;
 }
