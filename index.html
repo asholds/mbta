@@ -7,12 +7,12 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<title>MBTA</title>
 
-    	<script>document.write("<base href=\"" + document.location + "\" />");</script>
-    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script>document.write("<base href=\"" + document.location + "\" />");</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 
 	<script src="mbta.js"></script>
-	<link rel="apple-touch-startup-image" href="startup.png">
+	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link rel="apple-touch-icon" href="icon.png">
 
 </head>
@@ -20,7 +20,7 @@
 	<div ng-controller="MainController as main">
 		<div ng-show="!main.stations.length">Loading</div>
 		<div ng-show="main.stations.length">			
-			<div ng-repeat="station in main.stations">
+			<div class='station' ng-repeat="station in main.stations">
 				<h1>{{station.name}}</h1>
 				<h2>North</h2>
 				<p ng-repeat="prediction in station.predictions | filter: { direction : 'Northbound' } | limitTo:3">

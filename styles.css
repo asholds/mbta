@@ -1,3 +1,18 @@
-md-icon svg {
-  fill: inherit;
+body {
+  background-color: #212121;
+  color: white;
 }
+
+.station{
+	background-color: #424242;	
+	padding:5px;
+	margin-bottom:5px;
+}
+
+/* 
+material dark theme
+#000000	status bar
+#212121 app bar
+#303030 background
+#424242 cards
+ */
