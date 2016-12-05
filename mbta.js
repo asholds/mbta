@@ -1,8 +1,25 @@
+//TODO - sort predictions by time
+//TODO - sort stations by lat/lon distance
+
 var App = angular.module('App', ['ngMaterial']);
 
-App.controller('MainController', ['predictions', function(predictions) {
+App.controller('MainController', ['$scope', 'predictions', function($scope, predictions) {
   
+  $scope.showAlert = function(dir_str){
+    $scope.view_direction = dir_str;
+
+    if(dir_str == "Northbound"){
+      $( "span:contains('Northbound')" ).parent().addClass('md-accent');
+      $( "span:contains('Southbound')" ).parent().removeClass('md-accent');
+    }else{
+      $( "span:contains('Southbound')" ).parent().addClass('md-accent');
+      $( "span:contains('Northbound')" ).parent().removeClass('md-accent');
+    }
+  };
+
   var vm = this;
+  $scope.view_direction = "Northbound";
+  
   predictions.get(function (data) {
   
     vm.alerts = [];
@@ -51,12 +68,17 @@ App.factory('predictions', ['$http', function ($http) {
   }
 }]);
 
-App.filter('toMinSec', function(){
-  return function(input){
-    var minutes = parseInt(input/60, 10);
-    var seconds = input%60;
+App.filter('toTimeDisplay', function(){
+  return function(seconds){
+    var minutes = parseInt(seconds/60, 10);
+    if(minutes<1){return "ARR"}
+    else{return minutes + " min"}
+  }
+})
 
-    return minutes+ ':' +seconds;
+App.filter('toCaps', function(){
+  return function(str){
+    return str.toUpperCase();
   }
 })
 
@@ -66,3 +88,4 @@ App.config(function($mdThemingProvider) {
     .accentPalette('red')
     .dark();
 })
+

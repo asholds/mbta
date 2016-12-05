@@ -3,12 +3,27 @@ body {
   color: white;
 }
 
+md-card {
+	font-family: 'Bungee', cursive;
+	font-size: 25px;
+}
+
+md-card md-card-title {
+    padding: 0px 16px 0px;
+}
 
 
-/* 
-material dark theme
-#000000	status bar
-#212121 app bar
-#303030 background
-#424242 cards
- */
+md-card-title-text {
+	font-size:30px !important;
+}
+
+md-card-content p {
+	font-size: 25px;
+	margin:0px;
+	padding:0px;
+}
+
+md-list-item, md-list-item .md-list-item-inner {
+    min-height: 20px;
+    height: 25px;
+}
