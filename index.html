@@ -19,8 +19,7 @@
 <body>
 	<div ng-controller="MainController as main">
 		<div ng-show="!main.stations.length">Loading</div>
-		<div ng-show="main.stations.length">
-			<button type="button" onClick="window.location.reload()">Reload</button>
+		<div ng-show="main.stations.length">			
 			<div ng-repeat="station in main.stations">
 				<h1>{{station.name}}</h1>
 				<h2>North</h2>
