@@ -1,4 +1,3 @@
-//TODO - sort predictions by time
 //TODO - sort stations by lat/lon distance
 
 var App = angular.module('App', ['ngMaterial']);
@@ -19,45 +18,58 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
 
   var vm = this;
   $scope.view_direction = "Northbound";
-  
-  predictions.get(function (data) {
-  
-    vm.alerts = [];
-    $.each(data.alert_headers, function(){ 
-      vm.alerts.push(this.header_text);
-    });
+
+  $scope.queryMBTA = function(){ 
+    predictions.get(function (data) {
     
-    vm.stations = [];
-    $.each(["Braintree", "Quincy Adams", "Quincy Center", "Wollaston", "North Quincy", "JFK/UMASS", "Andrew", "Broadway", "South Station", "Downtown Crossing", "Park Street", "Charles/MGH", "Kendall/MIT", "Central", "Harvard", "Porter", "Davis", "Alewife", "Savin Hill", "Fields Corner", "Shawmut", "Ashmont"], function(i,v){
-      var station = {};
-      station.name = v;
-      station.predictions = [];
-      vm.stations.push(station);
-    });
+      vm.alerts = [];
+      $.each(data.alert_headers, function(){ 
+        vm.alerts.push(this.header_text);
+      });
+      
+      vm.stations = [];
+      $.each(["Braintree", "Quincy Adams", "Quincy Center", "Wollaston", "North Quincy", "JFK/UMASS", "Andrew", "Broadway", "South Station", "Downtown Crossing", "Park Street", "Charles/MGH", "Kendall/MIT", "Central", "Harvard", "Porter", "Davis", "Alewife", "Savin Hill", "Fields Corner", "Shawmut", "Ashmont"], function(i,v){
+        var station = {};
+        station.name = v;
+        station.predictions = [];
+        vm.stations.push(station);
+      });
 
-    //console.log(vm.stations);
+      //console.log(vm.stations);
 
-    $.each(data.direction, function(){ 
-      var direction = this;
-      $.each(direction.trip, function(){  //each train
-        var train = this;
-        $.each(train.stop, function(){ 
-          var stop = this;
-          var prediction = {};
-          prediction.headsign = train.trip_headsign;
-          prediction.direction = direction.direction_name;
-          prediction.distance = this.pre_away;
+      $.each(data.direction, function(){ 
+        var direction = this;
+        $.each(direction.trip, function(){  //each train
+          var train = this;
+          $.each(train.stop, function(){ 
+            var stop = this;
+            var prediction = {};
+            prediction.headsign = train.trip_headsign;
+            prediction.direction = direction.direction_name;
+            prediction.distance = this.pre_away;
 
-          var stopName = stop.stop_name.split(' - ')[0];
-          if(stopName == "JFK/UMASS Braintree" || stopName == "JFK/UMASS Ashmont"){ stopName = "JFK/UMASS"; }
+            var stopName = stop.stop_name.split(' - ')[0];
+            if(stopName == "JFK/UMASS Braintree" || stopName == "JFK/UMASS Ashmont"){ stopName = "JFK/UMASS"; }
 
-          vm.stations.filter(function( obj ) { return obj.name == stopName })[0].predictions.push(prediction);
-          
+            vm.stations.filter(function( obj ) { return obj.name == stopName })[0].predictions.push(prediction);
+            
+          });
         });
       });
+      //console.log(vm.stations);
+
+      $.each(vm.stations, function(station){
+        this.predictions.sort(function(a, b)
+          {
+            return a.distance - b.distance;
+          });
+      });
+
     });
-    //console.log(vm.stations);
-  });
+  };
+
+  $scope.queryMBTA();
+
 }]);
 
 App.factory('predictions', ['$http', function ($http) {
