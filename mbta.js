@@ -16,19 +16,22 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
     }
   };
 
-  
+  $scope.dataLoaded = false;
 
   var vm = this;
   $scope.view_direction = "Northbound";
   
 
   $scope.queryMBTA = function(){ 
+    $scope.dataLoaded = false;
     predictions.get(function (data) {
     
       vm.alerts = [];
       $.each(data.alert_headers, function(){ 
         vm.alerts.push(this.header_text);
       });
+vm.alerts.push("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris finibus rutrum magna, ut aliquet nibh suscipit sit amet. Fusce commodo sapien ut turpis luctus laoreet. Praesent interdum porttitor sodales.");
+vm.alerts.push("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris finibus rutrum magna, ut aliquet nibh suscipit sit amet.sss Fusce commodo sapien ut turpis luctus laoreet. Praesent interdum porttitor sodales.");
       
       //navigator.geolocation.getCurrentPosition(function(location) {
       //var USER_LAT = location.coords.latitude;
@@ -127,6 +130,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
           });
       });
       console.log(vm.stations);
+      $scope.dataLoaded = true;
     });
   };
 

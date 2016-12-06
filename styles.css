@@ -4,26 +4,29 @@ body {
 }
 
 md-card {
-	font-family: 'Bungee', cursive;
+	font-family: 'Bungee', cursive;	
+}
+
+md-card.station {
 	font-size: 18px;
 }
 
-md-card md-card-title {
+md-card.station md-card-title {
     padding: 5px 16px 5px;
 }
 
 
-md-card-title-text {
+.station md-card-title-text {
 	font-size:20px !important;
 }
 
-md-card-content p {
+.station md-card-content p {
 	font-size: 20px;
 	margin:0px;
 	padding:0px;
 }
 
-md-list-item, md-list-item .md-list-item-inner {
+.station md-list-item, md-list-item .md-list-item-inner {
     min-height: 20px;
     height: 25px;
 }

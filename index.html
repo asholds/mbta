@@ -24,26 +24,49 @@
 </head>
 <body md-theme="dark-grey" class="layout layout-column">
 	<div ng-controller="MainController as main" ng-cloak layout="column"  layout-fill>
-		<div ng-show="!main.stations.length">
+
+		<!--<div ng-show="!main.stations.length">
 			<md-content md-theme="dark-grey" layout-padding>
 				<div layout="row" layout-sm="column" layout-align="space-around">
       				<md-progress-circular class="md-accent" md-diameter="20px"></md-progress-circular>
       			</div>
 			</md-content>
-		</div>
+		</div>-->
 
-		<div ng-show="main.stations.length" layout="column" layout-fill>	
+		<div layout="column" layout-fill>	
 			<md-toolbar>
 				<div class="md-toolbar-tools">
 					<md-button id='nb_btn' ng-click="showAlert('Northbound')" class="md-raised md-accent">Northbound</md-button>
 					<md-button id='sb_btn' ng-click="showAlert('Southbound')" class="md-raised">Southbound</md-button>
 					<span flex=""></span>
 					<md-button id="refresh_btn" class="md-raised" ng-click="queryMBTA()">Refresh</md-button>
+
+					
 				</div>
+
 			</md-toolbar>
 
-			<md-content flex>
-				<md-card ng-repeat="station in main.stations | filter:station.display=true" md-theme="dark-grey">
+			<div>
+				<md-progress-linear ng-show="!dataLoaded" md-mode="indeterminate" class='md-accent'></md-progress-linear>
+      		</div>
+
+			<md-content ng-show="main.stations.length">
+
+				
+
+      			<md-card class='alert' ng-show="main.alerts.length" md-colors="{backgroundColor: 'default-warn-900'}">
+					<md-card-content>
+						<md-list>
+							<md-list-item ng-repeat="alert in main.alerts" layout="row">
+							
+					            {{alert}}
+					        
+					        </md-list-item>
+				        </md-list>
+					</md-card-content>
+				</md-card>
+
+				<md-card class="station" ng-repeat="station in main.stations | filter:station.display=true" md-theme="dark-grey">
 					<md-card-title>
 						<md-card-title-text>
 			        	    {{station.name}}
@@ -59,6 +82,7 @@
 				        </md-list>
 					</md-card-content>
 				</md-card>
+
 			</md-content>
 		</div>
 	</div>
