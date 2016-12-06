@@ -16,8 +16,11 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
     }
   };
 
+  
+
   var vm = this;
   $scope.view_direction = "Northbound";
+  
 
   $scope.queryMBTA = function(){ 
     predictions.get(function (data) {
@@ -27,13 +30,68 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
         vm.alerts.push(this.header_text);
       });
       
+      //navigator.geolocation.getCurrentPosition(function(location) {
+      //var USER_LAT = location.coords.latitude;
+      //var USER_LON = location.coords.longitude;
+  
+
       vm.stations = [];
-      $.each(["Braintree", "Quincy Adams", "Quincy Center", "Wollaston", "North Quincy", "JFK/UMASS", "Andrew", "Broadway", "South Station", "Downtown Crossing", "Park Street", "Charles/MGH", "Kendall/MIT", "Central", "Harvard", "Porter", "Davis", "Alewife", "Savin Hill", "Fields Corner", "Shawmut", "Ashmont"], function(i,v){
+
+      var stationData = [
+        {'name': 'Braintree',         'display': true, 'lat': 42.2087804241, 'lon': -71.0013341904 },
+        {'name': 'Quincy Adams',      'display': true, 'lat': 42.2327515704, 'lon': -71.0071492195 },
+        {'name': 'Quincy Center',     'display': true, 'lat': 42.250879, 'lon': -71.004798 },
+        {'name': 'Wollaston',         'display': true, 'lat': 42.2656146622, 'lon': -71.0194015503 },
+        {'name': 'North Quincy',      'display': true, 'lat': 42.2748161177, 'lon': -71.0291755199 },
+        {'name': 'JFK/UMASS',         'display': true, 'lat': 42.3214378629, 'lon': -71.0523927212 },
+        {'name': 'Andrew',            'display': true, 'lat': 42.32955, 'lon': -71.05696 },
+        {'name': 'Broadway',          'display': true, 'lat': 42.3429, 'lon': -71.05713 },
+        {'name': 'South Station',     'display': true, 'lat': 42.351709611, 'lon': -71.0549998283 },
+        {'name': 'Downtown Crossing', 'display': true, 'lat': 42.355295, 'lon': -71.060788 },
+        {'name': 'Park Street',       'display': true, 'lat': 42.3561971861, 'lon': -71.0622954369 },
+        {'name': 'Charles/MGH',       'display': true, 'lat': 42.3612710899, 'lon': -71.0720801353 },
+        {'name': 'Kendall/MIT',       'display': true, 'lat': 42.3624602268, 'lon': -71.0865855217 },
+        {'name': 'Central',           'display': true, 'lat': 42.3651634477, 'lon': -71.103322506 },
+        {'name': 'Harvard',           'display': true, 'lat': 42.373939, 'lon': -71.119106 },
+        {'name': 'Porter',            'display': true, 'lat': 42.3883461218, 'lon': -71.1192440987 },
+        {'name': 'Davis',             'display': true, 'lat': 42.3960638548, 'lon': -71.1220550537 },
+        {'name': 'Alewife',           'display': true, 'lat': 42.3949070477, 'lon': -71.1409807205 },
+        {'name': 'Savin Hill',        'display': false, 'lat': 0, 'lon': 0 },
+        {'name': 'Fields Corner',     'display': false, 'lat': 0, 'lon': 0 },
+        {'name': 'Shawmut',           'display': false, 'lat': 0, 'lon': 0 },
+        {'name': 'Ashmont',           'display': false, 'lat': 0, 'lon': 0 }
+      ];
+      
+      $.each(stationData, function(i,v){
         var station = {};
-        station.name = v;
+        station.name = v.name;
         station.predictions = [];
+        station.display = v.display;
+        var lat = v.lat;
+        var lon = v.lon;
+        
+        station.calcDist = function(lat1, lon1, lat2, lon2) 
+        {
+          var R = 6371; // km
+          var dLat = (lat2-lat1) * Math.PI / 180;
+          var dLon = (lon2-lon1) * Math.PI / 180;
+          var lat1 = (lat1) * Math.PI / 180;
+          var lat2 = (lat2) * Math.PI / 180;
+
+          var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+          var d = R * c;
+          return d;
+        }
+
+        station.distance = station.calcDist($scope.USER_LAT, $scope.USER_LON, v.lat, v.lon);
+
         vm.stations.push(station);
       });
+
+    
+      //, "Quincy Adams", "Quincy Center", "Wollaston", "North Quincy", "JFK/UMASS", "Andrew", "Broadway", "South Station", "Downtown Crossing", "Park Street", "Charles/MGH", "Kendall/MIT", "Central", "Harvard", "Porter", "Davis", "Alewife"
 
       //console.log(vm.stations);
 
@@ -58,17 +116,25 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
       });
       //console.log(vm.stations);
 
+      vm.stations.sort(function(a,b){
+        return a.distance - b.distance;
+      });
+
       $.each(vm.stations, function(station){
         this.predictions.sort(function(a, b)
           {
             return a.distance - b.distance;
           });
       });
-
+      console.log(vm.stations);
     });
   };
 
-  $scope.queryMBTA();
+  navigator.geolocation.getCurrentPosition(function(location) {
+    $scope.USER_LAT = location.coords.latitude;
+    $scope.USER_LON = location.coords.longitude;
+    $scope.queryMBTA();
+  });
 
 }]);
 
