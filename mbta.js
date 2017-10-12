@@ -28,8 +28,9 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
     
       vm.alerts = [];
       $.each(data.alert_headers, function(){ 
-        console.log(this);
-        vm.alerts.push(this.header_text);
+        if(this.effect_name != "Station Issue"){
+          vm.alerts.push(this.header_text);
+        }
       });
       
       //navigator.geolocation.getCurrentPosition(function(location) {
