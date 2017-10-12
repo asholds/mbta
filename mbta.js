@@ -6,7 +6,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
   
   $scope.showAlert = function(dir_str){
     $scope.view_direction = dir_str;
-console.log(dir_str);
+
     if(dir_str == "Northbound"){
       $( "span:contains('Northbound')" ).parent().addClass('md-accent');
       $( "span:contains('Southbound')" ).parent().removeClass('md-accent');
@@ -28,6 +28,7 @@ console.log(dir_str);
     
       vm.alerts = [];
       $.each(data.alert_headers, function(){ 
+        console.log(this);
         vm.alerts.push(this.header_text);
       });
       
