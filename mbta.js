@@ -25,7 +25,9 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
   $scope.queryMBTA = function(){ 
     $scope.dataLoaded = false;
     predictions.get(function (data) {
-    
+      
+      window.console && console.log(data);
+
       vm.alerts = [];
       $.each(data.alert_headers, function(){ 
         if(this.effect_name != "Station Issue"){
