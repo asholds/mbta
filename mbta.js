@@ -143,7 +143,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
     $scope.queryMBTA();
   });
 
-}]);
+};
 
 App.factory('predictions', ['$http', function ($http) {
   return {
