@@ -31,7 +31,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
 
       vm.alerts = [];
       $.each(data.alert_headers, function(){ 
-        if(this.effect_name != "Station Issue"){
+        if(this.effect_name != "Station Issue" && this.effect_name != "Station Closure"){
           vm.alerts.push(this.header_text);
         }
       });
@@ -105,7 +105,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
         var direction = this;
         $.each(direction.trip, function(){  //each train
           var train = this;
-console.log(train.stop)
+
           $.each(train.stop, function(){ 
             var stop = this;
             var prediction = {};
@@ -114,9 +114,6 @@ console.log(train.stop)
             prediction.distance = this.pre_away;
 
             var stopName = stop.stop_name.split(' - ')[0].toUpperCase();
-console.log(stopName)
-            //if(stopName == "JFK/UMASS Braintree" || stopName == "JFK/UMASS Ashmont"){ stopName = "JFK/UMASS"; }
-
             vm.stations.filter(function( obj ) { return obj.name == stopName })[0].predictions.push(prediction);
             
           });
