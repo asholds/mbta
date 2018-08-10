@@ -131,7 +131,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
             return a.distance - b.distance;
           });
       });
-      console.log(vm.stations);
+      //console.log(vm.stations);
       $scope.dataLoaded = true;
     });
   };
