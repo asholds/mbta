@@ -26,6 +26,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
     $scope.dataLoaded = false;
     predictions.get(function (data) {
       
+      //raw data from MBTA
       window.console && console.log(data);
 
       vm.alerts = [];
@@ -72,10 +73,10 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
         station.name = v.name;
         station.predictions = [];
         station.display = v.display;
-        var lat = v.lat;
-        var lon = v.lon;
+        //var lat = v.lat;
+        //var lon = v.lon;
         
-        station.calcDist = function(lat1, lon1, lat2, lon2) 
+        /*station.calcDist = function(lat1, lon1, lat2, lon2) 
         {
           var R = 6371; // km
           var dLat = (lat2-lat1) * Math.PI / 180;
@@ -88,9 +89,9 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
           var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
           var d = R * c;
           return d;
-        }
+        }*/
 
-        station.distance = station.calcDist($scope.USER_LAT, $scope.USER_LON, v.lat, v.lon);
+        //station.distance = station.calcDist($scope.USER_LAT, $scope.USER_LON, v.lat, v.lon);
 
         vm.stations.push(station);
       });
@@ -112,6 +113,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
             prediction.distance = this.pre_away;
 
             var stopName = stop.stop_name.split(' - ')[0];
+console.log(stopName)
             if(stopName == "JFK/UMASS Braintree" || stopName == "JFK/UMASS Ashmont"){ stopName = "JFK/UMASS"; }
 
             vm.stations.filter(function( obj ) { return obj.name == stopName })[0].predictions.push(prediction);
@@ -121,9 +123,9 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
       });
       //console.log(vm.stations);
 
-      vm.stations.sort(function(a,b){
+      /*vm.stations.sort(function(a,b){
         return a.distance - b.distance;
-      });
+      });*/
 
       $.each(vm.stations, function(station){
         this.predictions.sort(function(a, b)
@@ -136,11 +138,13 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
     });
   };
 
-  navigator.geolocation.getCurrentPosition(function(location) {
+
+  $scope.queryMBTA();
+  /*navigator.geolocation.getCurrentPosition(function(location) {
     $scope.USER_LAT = location.coords.latitude;
     $scope.USER_LON = location.coords.longitude;
-    $scope.queryMBTA();
-  });
+    
+  });*/
 
 }]);
 
