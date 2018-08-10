@@ -36,9 +36,9 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
         }
       });
       
-      navigator.geolocation.getCurrentPosition(function(location) {
-      var USER_LAT = location.coords.latitude;
-      var USER_LON = location.coords.longitude;
+      //navigator.geolocation.getCurrentPosition(function(location) {
+      //var USER_LAT = location.coords.latitude;
+      //var USER_LON = location.coords.longitude;
   
 
       vm.stations = [];
@@ -131,7 +131,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
             return a.distance - b.distance;
           });
       });
-      //console.log(vm.stations);
+      console.log(vm.stations);
       $scope.dataLoaded = true;
     });
   };
@@ -143,7 +143,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
     $scope.queryMBTA();
   });
 
-};
+}]);
 
 App.factory('predictions', ['$http', function ($http) {
   return {
