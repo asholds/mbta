@@ -49,7 +49,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
         {'name': 'Quincy Center',     'display': true, 'lat': 42.250879, 'lon': -71.004798 },
         //{'name': 'Wollaston',         'display': true, 'lat': 42.2656146622, 'lon': -71.0194015503 },
         {'name': 'North Quincy',      'display': true, 'lat': 42.2748161177, 'lon': -71.0291755199 },
-        {'name': 'JFK/UMASS',         'display': true, 'lat': 42.3214378629, 'lon': -71.0523927212 },
+        {'name': 'JFK/UMass',         'display': true, 'lat': 42.3214378629, 'lon': -71.0523927212 },
         {'name': 'Andrew',            'display': true, 'lat': 42.32955, 'lon': -71.05696 },
         {'name': 'Broadway',          'display': true, 'lat': 42.3429, 'lon': -71.05713 },
         {'name': 'South Station',     'display': true, 'lat': 42.351709611, 'lon': -71.0549998283 },
@@ -105,6 +105,7 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
         var direction = this;
         $.each(direction.trip, function(){  //each train
           var train = this;
+console.log(train.stop)
           $.each(train.stop, function(){ 
             var stop = this;
             var prediction = {};
@@ -112,9 +113,9 @@ App.controller('MainController', ['$scope', 'predictions', function($scope, pred
             prediction.direction = direction.direction_name;
             prediction.distance = this.pre_away;
 
-            var stopName = stop.stop_name.split(' - ')[0];
+            var stopName = stop.stop_name.split(' - ')[0].toUpperCase();
 console.log(stopName)
-            if(stopName == "JFK/UMASS Braintree" || stopName == "JFK/UMASS Ashmont"){ stopName = "JFK/UMASS"; }
+            //if(stopName == "JFK/UMASS Braintree" || stopName == "JFK/UMASS Ashmont"){ stopName = "JFK/UMASS"; }
 
             vm.stations.filter(function( obj ) { return obj.name == stopName })[0].predictions.push(prediction);
             
