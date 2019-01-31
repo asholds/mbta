@@ -1,90 +1,27 @@
 <!DOCTYPE html>
-<html ng-app="App">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="initial-scale=1" />
 	<meta name="apple-mobile-web-app-capable" content="yes"> 
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<title>MBTA</title>
-
 	<script>document.write("<base href=\"" + document.location + "\" />");</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-	<script src="mbta.js"></script>
-
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bungee">
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<link rel="apple-touch-icon" href="icon.png">
-
+	<script src="mbta.js"></script>	
+	<style>
+		.switchDirection{ margin:2px; text-align:center; }
+		#disabledDirection{ color:lightgrey; }
+	}
+	</style>
 </head>
-<body md-theme="dark-grey" class="layout layout-column">
-	<div ng-controller="MainController as main" ng-cloak layout="column"  layout-fill>
+<body>
+	<h1 id='activeDirection' class="switchDirection">Alewife</h1>
+		<h2 id='disabledDirection' class='switchDirection'>Braintree</h2>
+	
 
-		<!--<div ng-show="!main.stations.length">
-			<md-content md-theme="dark-grey" layout-padding>
-				<div layout="row" layout-sm="column" layout-align="space-around">
-      				<md-progress-circular class="md-accent" md-diameter="20px"></md-progress-circular>
-      			</div>
-			</md-content>
-		</div>-->
-
-		<div layout="column" layout-fill>	
-			<md-toolbar>
-				<div class="md-toolbar-tools">
-					<md-button id='nb_btn' ng-click="showAlert('Northbound')" class="md-raised md-accent">Northbound</md-button>
-					<md-button id='sb_btn' ng-click="showAlert('Southbound')" class="md-raised">Southbound</md-button>
-					<span flex=""></span>
-					<md-button id="refresh_btn" class="md-raised" ng-click="queryMBTA()">Refresh</md-button>
-
-					
-				</div>
-
-			</md-toolbar>
-
-			<div>
-				<md-progress-linear ng-show="!dataLoaded" md-mode="indeterminate" class='md-accent'></md-progress-linear>
-      		</div>
-
-			<md-content ng-show="main.stations.length">
-
-				
-
-      			<md-card class='alert' ng-show="main.alerts.length" md-colors="{backgroundColor: 'default-warn-900'}">
-					<md-card-content>
-						<md-list>
-							<md-list-item ng-repeat="alert in main.alerts" layout="row">
-							
-					            {{alert}}
-					        
-					        </md-list-item>
-				        </md-list>
-					</md-card-content>
-				</md-card>
-
-				<md-card class="station" ng-repeat="station in main.stations | filter:station.display=true" md-theme="dark-grey">
-					<md-card-title>
-						<md-card-title-text>
-			        	    {{station.name}}
-						</md-card-title-text>
-					</md-card-title>
-					<md-card-content>
-						<md-list>
-							<md-list-item ng-repeat="prediction in station.predictions | filter: { direction : view_direction } | limitTo:3" layout="row">
-							
-					            {{prediction.headsign | toCaps}} <span flex=""></span> {{prediction.distance | toTimeDisplay}}
-					        
-					        </md-list-item>
-				        </md-list>
-					</md-card-content>
-				</md-card>
-
-			</md-content>
-		</div>
+	<div id='app'>
+		Getting location....
 	</div>
 </body>
 </html>
